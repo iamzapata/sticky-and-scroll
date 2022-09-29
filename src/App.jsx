@@ -167,7 +167,6 @@ function App() {
           (i) => i.options.name === browserInView
         )
         chart.tooltip.refresh(chart.series[0].data[getChartNodeIndex])
-        console.info(chart)
       })
     }
 
@@ -179,9 +178,8 @@ function App() {
   }, [rightBlockRef?.current, chartComponentRef?.current])
 
   useEffect(() => {
-    if (chartComponentRef?.current) {
+    if (chartComponentRef?.current?.chart) {
       window.chart = chartComponentRef.current.chart
-      console.info(chartComponentRef.current.chart)
     }
   }, [chartComponentRef?.current])
 
@@ -212,7 +210,7 @@ function App() {
       </div>
       <div className="MiddleBlock"></div>
       <div className="RightBlock" ref={rightBlockRef}>
-        {Array.from({ length: 12 }, (_, i) => (
+        {Array.from({ length: 9 }, (_, i) => (
           <List key={i} />
         ))}
         <h1>Hello! Please scroll down</h1>
