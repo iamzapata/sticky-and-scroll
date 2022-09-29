@@ -102,3 +102,11 @@
   opacity: 0;
   transition: opacity 500ms ease 250ms;
 }
+
+.Section {
+  background-color: honeydew;
+  padding: 10px;
+  height: 100vh;
+  border: solid 2px black;
+  margin-bottom: 10px;
+}

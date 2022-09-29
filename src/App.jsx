@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import "./App.css"
-import Highcharts from "highcharts"
+import Highcharts, { chart } from "highcharts"
 import HighchartsReact from "highcharts-react-official"
 
 const lorem = [
@@ -34,36 +34,62 @@ const lorem = [
 
 const getIndex = (length) => Math.round(Math.random() * length)
 
-const List = (length = 10) => {
+let index = 0
+
+const List = () => {
+  const name = browsers[index++ % browsers.length].name
   return (
-    <ul>
-      {Array.from({ length: 10 }, (_, i) => (
-        <li key={i}>{lorem[getIndex(lorem.length)]}</li>
-      ))}
-    </ul>
+    <section className="Section" data-browser={name}>
+      <h3>{name}</h3>
+      <ul>
+        {Array.from({ length: 9 }, (_, i) => (
+          <li key={i}>{lorem[getIndex(lorem.length)]}</li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
-function areElementsCollidingVertically(el1, el2) {
-  const rect1 = el1.getBoundingClientRect()
-  const rect2 = el2.getBoundingClientRect()
-
-  console.info({ rect1, rect2 })
-
-  return (
-    rect1.top + rect1.height >= rect2.top &&
-    rect2.top + rect2.height >= rect1.top
-  )
-}
-
-function isElementAboveAnother(el1, el2) {
-  const rect1 = el1.getBoundingClientRect()
-  const rect2 = el2.getBoundingClientRect()
-
-  const result = rect1.top < rect2.top
-
-  console.info(result)
-}
+const browsers = [
+  {
+    name: "Chrome",
+    y: 70.67,
+    sliced: true,
+    selected: true,
+  },
+  {
+    name: "Edge",
+    y: 14.77,
+  },
+  {
+    name: "Firefox",
+    y: 4.86,
+  },
+  {
+    name: "Safari",
+    y: 2.63,
+  },
+  {
+    name: "Internet Explorer",
+    y: 1.53,
+  },
+  {
+    name: "Opera",
+    y: 1.4,
+  },
+  {
+    name: "Sogou Explorer",
+    y: 0.84,
+  },
+  {
+    name: "QQ",
+    y: 0.51,
+  },
+  {
+    name: "Other",
+    y: 2.6,
+  },
+]
 
 const options = {
   chart: {
@@ -97,46 +123,7 @@ const options = {
     {
       name: "Brands",
       colorByPoint: true,
-      data: [
-        {
-          name: "Chrome",
-          y: 70.67,
-          sliced: true,
-          selected: true,
-        },
-        {
-          name: "Edge",
-          y: 14.77,
-        },
-        {
-          name: "Firefox",
-          y: 4.86,
-        },
-        {
-          name: "Safari",
-          y: 2.63,
-        },
-        {
-          name: "Internet Explorer",
-          y: 1.53,
-        },
-        {
-          name: "Opera",
-          y: 1.4,
-        },
-        {
-          name: "Sogou Explorer",
-          y: 0.84,
-        },
-        {
-          name: "QQ",
-          y: 0.51,
-        },
-        {
-          name: "Other",
-          y: 2.6,
-        },
-      ],
+      data: browsers,
     },
   ],
 }
@@ -169,10 +156,34 @@ function App() {
   }, [rightBlockRef?.current])
 
   useEffect(() => {
-    if (chartWrapperRef?.current && actionsRef?.current) {
-      isElementAboveAnother(actionsRef.current, chartWrapperRef.current)
+    const sections = document.getElementsByClassName("Section")
+    const chart = chartComponentRef.current.chart
+
+    const watchContainer = (entries) => {
+      entries.forEach((entry) => {
+        const { attributes } = entry.target
+        const browserInView = attributes.getNamedItem("data-browser").value
+        const getChartNodeIndex = chart.series[0].data.findIndex(
+          (i) => i.options.name === browserInView
+        )
+        chart.tooltip.refresh(chart.series[0].data[getChartNodeIndex])
+        console.info(chart)
+      })
     }
-  }, [chartWrapperRef?.current, actionsRef?.current])
+
+    const observer = new IntersectionObserver(watchContainer, {
+      threshold: 0.5,
+    })
+
+    Array.from(sections).forEach((section) => observer.observe(section))
+  }, [rightBlockRef?.current, chartComponentRef?.current])
+
+  useEffect(() => {
+    if (chartComponentRef?.current) {
+      window.chart = chartComponentRef.current.chart
+      console.info(chartComponentRef.current.chart)
+    }
+  }, [chartComponentRef?.current])
 
   return (
     <div className="App">
@@ -201,7 +212,7 @@ function App() {
       </div>
       <div className="MiddleBlock"></div>
       <div className="RightBlock" ref={rightBlockRef}>
-        {Array.from({ length: 10 }, (_, i) => (
+        {Array.from({ length: 12 }, (_, i) => (
           <List key={i} />
         ))}
         <h1>Hello! Please scroll down</h1>
