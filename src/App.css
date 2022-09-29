@@ -14,16 +14,21 @@
   width: 100%;
 }
 
+.App {
+  overflow-y: scroll;
+}
+
 .LeftBlock {
-  background-color: antiquewhite;
-  max-height: 100vh;
+  contain: content;
   position: fixed;
+  top: 0;
+  overflow-y: scroll;
+  height: 100%;
+  background-color: antiquewhite;
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100%;
   flex-basis: 33.33333%;
   flex-grow: 0;
   -webkit-box-flex: 0;
@@ -64,6 +69,9 @@
 }
 
 .Buttons {
+  position: sticky;
+  bottom: 0;
+  width: 80%;
   padding: 10px;
   background: lightgoldenrodyellow;
   border: solid 2px black;
@@ -75,4 +83,22 @@
 .Buttons button {
   margin-left: 10px;
   border: solid 2px black;
+}
+
+.spacer {
+  height: 100vh;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: calc(49% - 1rem);
+  margin: 0.5rem;
+  padding: 5rem 0;
+  outline: 1px solid blue;
+  opacity: 0;
+  transition: opacity 500ms ease 250ms;
 }
