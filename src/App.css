@@ -1,0 +1,78 @@
+.App {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#root {
+  height: 100vh;
+  width: 100%;
+}
+
+.LeftBlock {
+  background-color: antiquewhite;
+  max-height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  flex-basis: 33.33333%;
+  flex-grow: 0;
+  -webkit-box-flex: 0;
+  max-width: 33.33333%;
+}
+
+.MiddleBlock {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  flex-basis: 8.333333%;
+  flex-grow: 0;
+  -webkit-box-flex: 0;
+  max-width: 8.33333%;
+}
+
+.RightBlock {
+  background-color: aliceblue;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  flex-basis: 58.333333%;
+  flex-grow: 0;
+  -webkit-box-flex: 0;
+  max-width: 58.333333%;
+}
+
+.LeftBlock,
+.MiddleBlock,
+.RightBlock {
+  padding: 10px;
+}
+
+.Buttons {
+  padding: 10px;
+  background: lightgoldenrodyellow;
+  border: solid 2px black;
+  border-radius: 4px;
+  display: flex;
+  justify-content: right;
+}
+
+.Buttons button {
+  margin-left: 10px;
+  border: solid 2px black;
+}
